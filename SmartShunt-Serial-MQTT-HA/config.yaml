@@ -19,7 +19,7 @@ options:
   mqtt_host: "core-mosquitto"
   mqtt_port: 1883
   mqtt_user: "homeassistant"
-  mqtt_password: "your mqtt pass"
+  mqtt_password: ""
 schema:
   serial_port: device(subsystem=tty)
   mqtt_host: str
