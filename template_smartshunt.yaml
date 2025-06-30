@@ -56,7 +56,7 @@ template:
         {{ parsed.ce if parsed.ce is defined else this.state }}
 
 
-# Alarms (Not Used)
+# Alarms (Uncomment if wanted)
 #      - name: "SmartShunt Alarm Active" # Is Alarm Active (String: "ON" or "OFF")
 #        unique_id: smartshunt_alarm
 #        state: >-
