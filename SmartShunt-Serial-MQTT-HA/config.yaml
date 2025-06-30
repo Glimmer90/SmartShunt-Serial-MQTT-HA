@@ -1,5 +1,5 @@
 name: "SmartShunt-Serial-MQTT-HA"
-description: "Victron SmartShunt - Serial To MQTT"
+description: "Victron SmartShunt USB Serial To MQTT Home Assistant Addon"
 version: "1.0.0"
 slug: "smartshunt_serial"
 url: "https://github.com/Glimmer90/SmartShunt-Serial-MQTT-HA"
