@@ -40,13 +40,21 @@ template:
       state: >-
         {{ parsed.soc if parsed.soc is defined else this.state }}
 
-    - name: "SmartShunt Time To Go" # Time To Go (Minutes/int)
+    - name: "SmartShunt Time To Go"
       unique_id: smartshunt_ttg
-      device_class: duration
-      unit_of_measurement: "min"
-      state_class: measurement
+      icon: mdi:progress-clock
       state: >-
-        {{ parsed.time if parsed.time is defined else this.state }}
+        {% set total_minutes = parsed.time if parsed.time is defined else this.state | int %}
+        {% set days = (total_minutes // 1440) %}
+        {% set hours = (total_minutes % 1440) // 60 %}
+        {% set minutes = total_minutes % 60 %}
+        {% if days > 0 %}
+          {{ days }}d {{ hours }}h {{ minutes }}m
+        {% elif hours > 0 %}
+          {{ hours }}h {{ minutes }}m
+        {% else %}
+          {{ minutes }}m
+        {% endif %}
 
     - name: "SmartShunt Consumed Ah" # Consumed Amp Hours (0.00Ah)
       unique_id: smartshunt_consumedah
@@ -124,11 +132,19 @@ template:
 
     - name: "SmartShunt Time Since Last Full Charge" # Number of minutes since last full charge (Minutes/int)
       unique_id: smartshunt_hist_lastfullchargetime
-      device_class: duration
-      unit_of_measurement: "min"
-      state_class: measurement
+      icon: mdi:progress-clock
       state: >-
-        {{ parsed.h_lastchg if parsed.h_lastchg is defined else this.state }}
+        {% set total_minutes = parsed.h_lastchg if parsed.h_lastchg is defined else this.state | int %}
+        {% set days = (total_minutes // 1440) %}
+        {% set hours = (total_minutes % 1440) // 60 %}
+        {% set minutes = total_minutes % 60 %}
+        {% if days > 0 %}
+          {{ days }}d {{ hours }}h {{ minutes }}m
+        {% elif hours > 0 %}
+          {{ hours }}h {{ minutes }}m
+        {% else %}
+          {{ minutes }}m
+        {% endif %}
 
     - name: "SmartShunt Total Discharged kWh" # (0.00kWh)
       unique_id: smartshunt_hist_totalkwhdischarged
