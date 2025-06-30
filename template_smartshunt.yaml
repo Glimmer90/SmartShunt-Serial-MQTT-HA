@@ -1,0 +1,147 @@
+template:
+  - trigger:
+      - platform: mqtt
+        topic: "victron/smartshunt"
+        qos: 1
+    variables:
+      parsed: "{{ trigger.payload_json }}"
+
+    sensor:
+# Battery
+    - name: "SmartShunt Voltage" # Batt Voltage (0.00V)
+      unique_id: smartshunt_voltage
+      device_class: voltage
+      unit_of_measurement: "V"
+      state_class: measurement
+      state: >-
+        {{ parsed.v if parsed.v is defined else this.state }}
+
+    - name: "SmartShunt Current" # Batt Current (0.00A)
+      unique_id: smartshunt_current
+      device_class: current
+      unit_of_measurement: "A"
+      state_class: measurement
+      state: >-
+        {{ parsed.a if parsed.a is defined else this.state }}
+
+    - name: "SmartShunt Power" # Batt Power (0W)
+      unique_id: smartshunt_power
+      device_class: power
+      unit_of_measurement: "W"
+      state_class: measurement
+      state: >-
+        {{ parsed.w if parsed.w is defined else this.state }}
+
+    - name: "SmartShunt SOC" # State Of Charge (0.0%)
+      unique_id: smartshunt_soc
+      device_class: battery
+      unit_of_measurement: "%"
+      state_class: measurement
+      state: >-
+        {{ parsed.soc if parsed.soc is defined else this.state }}
+
+    - name: "SmartShunt Time To Go" # Time To Go (Minutes/int)
+      unique_id: smartshunt_ttg
+      device_class: duration
+      unit_of_measurement: "min"
+      state_class: measurement
+      state: >-
+        {{ parsed.time if parsed.time is defined else this.state }}
+
+    - name: "SmartShunt Consumed Ah" # Consumed Amp Hours (0.00Ah)
+      unique_id: smartshunt_consumedah
+      unit_of_measurement: "Ah"
+      state_class: total
+      state: >-
+        {{ parsed.ce if parsed.ce is defined else this.state }}
+
+
+# Alarms (Not Used)
+#      - name: "SmartShunt Alarm Active" # Is Alarm Active (String: "ON" or "OFF")
+#        unique_id: smartshunt_alarm
+#        state: >-
+#          {{ parsed.alarm if parsed.alarm is defined else this.state }}
+
+#      - name: "SmartShunt Alarm Reason" # Alarm Reason (int) TODO: convert to enum
+#        unique_id: smartshunt_ar
+#        state: >-
+#          {{ parsed.ar if parsed.ar is defined else this.state }}
+
+# History
+    - name: "SmartShunt Deepest Discharge" # (0.00Ah)
+      unique_id: smartshunt_hist_deepestdischarge
+      unit_of_measurement: "Ah"
+      state_class: total
+      state: >-
+        {{ parsed.h_ddist if parsed.h_ddist is defined else this.state }}
+
+    - name: "SmartShunt Last Discharge" # (0.00Ah)
+      unique_id: smartshunt_hist_lastdischarge
+      unit_of_measurement: "Ah"
+      state_class: total
+      state: >-
+        {{ parsed.h_ldist if parsed.h_ldist is defined else this.state }}
+
+    - name: "SmartShunt Average Discharge" # (0.00Ah)
+      unique_id: smartshunt_hist_averagedischarge
+      unit_of_measurement: "Ah"
+      state_class: total
+      state: >-
+        {{ parsed.h_adist if parsed.h_adist is defined else this.state }}
+
+    - name: "SmartShunt Charge Cycles" # (int)
+      unique_id: smartshunt_hist_chargecycles
+      state: >-
+        {{ parsed.h_chgcyc if parsed.h_chgcyc is defined else this.state }}
+
+    - name: "SmartShunt Full Discharges" # (int)
+      unique_id: smartshunt_hist_fulldischarges
+      state: >-
+        {{ parsed.h_fulldist if parsed.h_fulldist is defined else this.state }}
+
+    - name: "SmartShunt Total Ah Drawn" # (0.00Ah)
+      unique_id: smartshunt_hist_totalah
+      unit_of_measurement: "Ah"
+      state_class: total
+      state: >-
+        {{ parsed.h_totalmah if parsed.h_totalmah is defined else this.state }}
+
+    - name: "SmartShunt Lowest Battery Voltage" # (0.00V)
+      unique_id: smartshunt_hist_minbattvolt
+      device_class: voltage
+      unit_of_measurement: "V"
+      state_class: measurement
+      state: >-
+        {{ parsed.h_bminv if parsed.h_bminv is defined else this.state }}
+
+    - name: "SmartShunt Highest Battery Voltage" # (0.00V)
+      unique_id: smartshunt_hist_highbattvolt
+      device_class: voltage
+      unit_of_measurement: "V"
+      state_class: measurement
+      state: >-
+        {{ parsed.h_bmaxv if parsed.h_bmaxv is defined else this.state }}
+
+    - name: "SmartShunt Time Since Last Full Charge" # Number of minutes since last full charge (Minutes/int)
+      unique_id: smartshunt_hist_lastfullchargetime
+      device_class: duration
+      unit_of_measurement: "min"
+      state_class: measurement
+      state: >-
+        {{ parsed.h_lastchg if parsed.h_lastchg is defined else this.state }}
+
+    - name: "SmartShunt Total Discharged kWh" # (0.00kWh)
+      unique_id: smartshunt_hist_totalkwhdischarged
+      device_class: energy
+      unit_of_measurement: "kWh"
+      state_class: total_increasing
+      state: >-
+        {{ parsed.h_totaldis if parsed.h_totaldis is defined else this.state }}
+
+    - name: "SmartShunt Total Charged kWh" # (0.00kWh)
+      unique_id: smartshunt_hist_totalkwhcharged
+      device_class: energy
+      unit_of_measurement: "kWh"
+      state_class: total_increasing
+      state: >-
+        {{ parsed.h_totalchg if parsed.h_totalchg is defined else this.state }}
