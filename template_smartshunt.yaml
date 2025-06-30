@@ -40,7 +40,7 @@ template:
       state: >-
         {{ parsed.soc if parsed.soc is defined else this.state }}
 
-    - name: "SmartShunt Time To Go"
+    - name: "SmartShunt Time To Go" # Time To Go (Minutes/int)
       unique_id: smartshunt_ttg
       icon: mdi:progress-clock
       state: >-
@@ -48,7 +48,9 @@ template:
         {% set days = (total_minutes // 1440) %}
         {% set hours = (total_minutes % 1440) // 60 %}
         {% set minutes = total_minutes % 60 %}
-        {% if days > 0 %}
+        {% if total_minutes < 0 %}
+          --
+        {% elif days > 0 %}
           {{ days }}d {{ hours }}h {{ minutes }}m
         {% elif hours > 0 %}
           {{ hours }}h {{ minutes }}m
