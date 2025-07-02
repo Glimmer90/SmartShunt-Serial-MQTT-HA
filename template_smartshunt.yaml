@@ -44,7 +44,7 @@ template:
       unique_id: smartshunt_ttg
       icon: mdi:progress-clock
       state: >-
-        {% set total_minutes = parsed.time if parsed.time is defined else this.state | int %}
+        {% set total_minutes = parsed.time if parsed.time is defined else int(-1) | int %}
         {% set days = (total_minutes // 1440) %}
         {% set hours = (total_minutes % 1440) // 60 %}
         {% set minutes = total_minutes % 60 %}
@@ -76,6 +76,8 @@ template:
 #        unique_id: smartshunt_ar
 #        state: >-
 #          {{ parsed.ar if parsed.ar is defined else this.state }}
+
+# Aux - TODO
 
 # History
     - name: "SmartShunt Deepest Discharge" # (0.00Ah)
