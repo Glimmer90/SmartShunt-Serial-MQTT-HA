@@ -33,7 +33,7 @@ def on_connect(client: mqtt.Client, userdata, flags, rc, _):
 
 
 def on_disconnect(client: mqtt.Client, userdata, flags, rc, _):
-    logging.warning("MQTT disconnected (rc=%s), auto‑reconnecting", rc)
+    logging.warning("MQTT disconnected (rc=%s), auto reconnecting", rc)
 
 
 def connect_mqtt() -> mqtt.Client:
